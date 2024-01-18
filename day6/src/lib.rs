@@ -56,15 +56,26 @@ pub fn part2(input: Vec<String>) -> u64 {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use super::*;
+
+    fn inputs_path() -> &'static str {
+        "inputs"
+    }
+
+    fn example_input_path() -> String {
+        format!("{}/example.txt", inputs_path())
+    }
+
+    fn actual_input_path() -> String {
+        format!("{}/actual.txt", inputs_path())
+    }
 
     #[test]
     pub fn part1_example_input() {
-        let input = example_input()
-            .lines()
-            .map(|l| l.trim().to_string())
-            .filter(|line| !line.is_empty())
-            .collect();
+        let file_content = fs::read_to_string(example_input_path()).unwrap();
+        let input = file_content.lines().map(|l| l.to_string()).collect();
         let result = part1(input);
         println!("{}", result);
         assert_eq!(result, 288);
@@ -72,11 +83,8 @@ mod tests {
 
     #[test]
     pub fn part1_actual_input() {
-        let input: Vec<String> = actual_input()
-            .lines()
-            .map(|l| l.trim().to_string())
-            .filter(|line| !line.is_empty())
-            .collect();
+        let file_content = fs::read_to_string(actual_input_path()).unwrap();
+        let input = file_content.lines().map(|l| l.to_string()).collect();
         let result = part1(input);
         println!("{}", result);
         assert_eq!(result, 140220);
@@ -84,11 +92,8 @@ mod tests {
 
     #[test]
     pub fn part2_example_input() {
-        let input = example_input()
-            .lines()
-            .map(|l| l.trim().to_string())
-            .filter(|line| !line.is_empty())
-            .collect();
+        let file_content = fs::read_to_string(example_input_path()).unwrap();
+        let input = file_content.lines().map(|l| l.to_string()).collect();
         let result = part2(input);
         println!("{}", result);
         assert_eq!(result, 71503);
@@ -96,29 +101,10 @@ mod tests {
 
     #[test]
     pub fn part2_actual_input() {
-        let input: Vec<String> = actual_input()
-            .lines()
-            .map(|l| l.trim().to_string())
-            .filter(|line| !line.is_empty())
-            .collect();
+        let file_content = fs::read_to_string(actual_input_path()).unwrap();
+        let input = file_content.lines().map(|l| l.to_string()).collect();
         let result = part2(input);
         println!("{}", result);
         assert_eq!(result, 39570185);
-    }
-
-    fn example_input() -> String {
-        "
-        Time:      7  15   30
-        Distance:  9  40  200
-        "
-        .to_string()
-    }
-
-    fn actual_input() -> String {
-        "
-        Time:        53     83     72     88
-        Distance:   333   1635   1289   1532
-        "
-        .to_string()
     }
 }

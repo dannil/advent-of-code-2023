@@ -162,11 +162,26 @@ fn part2(input: String) -> i32 {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
+
     use super::*;
+
+    fn inputs_path() -> &'static str {
+        "inputs"
+    }
+
+    fn example_input_path() -> String {
+        format!("{}/example.txt", inputs_path())
+    }
+
+    fn actual_input_path() -> String {
+        format!("{}/actual.txt", inputs_path())
+    }
 
     #[test]
     fn part1_actual_input() {
-        let input = actual_input()
+        let file_content = fs::read_to_string(actual_input_path()).unwrap();
+        let input = file_content
             .lines()
             .map(|line| line.trim())
             .collect::<Vec<&str>>()
@@ -178,7 +193,8 @@ mod tests {
 
     #[test]
     fn part1_example_input() {
-        let input = example_input()
+        let file_content = fs::read_to_string(example_input_path()).unwrap();
+        let input = file_content
             .lines()
             .map(|line| line.trim())
             .collect::<Vec<&str>>()
@@ -190,7 +206,8 @@ mod tests {
 
     #[test]
     fn part2_actual_input() {
-        let input = actual_input()
+        let file_content = fs::read_to_string(actual_input_path()).unwrap();
+        let input = file_content
             .lines()
             .map(|line| line.trim())
             .collect::<Vec<&str>>()
@@ -202,7 +219,8 @@ mod tests {
 
     #[test]
     fn part2_example_input() {
-        let input = example_input()
+        let file_content = fs::read_to_string(example_input_path()).unwrap();
+        let input = file_content
             .lines()
             .map(|line| line.trim())
             .collect::<Vec<&str>>()
