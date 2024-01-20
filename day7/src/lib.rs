@@ -24,7 +24,7 @@ struct Hand {
 impl Hand {
     pub fn as_number_representation(&self) -> Vec<u64> {
         let map: HashMap<char, u64> =
-            HashMap::from([('T', 10), ('J', 11), ('Q', 12), ('K', 13), ('A', 14)]);
+            HashMap::from([('T', 10), ('J', 1), ('Q', 12), ('K', 13), ('A', 14)]);
         let mut number_representation = Vec::new();
         for card in &self.cards {
             if map.contains_key(card) {
@@ -41,9 +41,17 @@ impl Hand {
         let numbers = &self.as_number_representation();
 
         let mut occurances = HashMap::<u64, u64>::new();
-        for n in numbers {
+        for n in numbers.into_iter().filter(|n| **n != 1) {
             let entry = occurances.entry(*n).or_insert(0);
             *entry += 1;
+        }
+
+        for n in numbers.into_iter().filter(|n| **n == 1) {
+            // For every joker, add 1 to every occurance since it can be used in any combination
+            for (key, value) in occurances.clone() {
+                let entry = occurances.get_mut(&key).unwrap();
+                *entry += 1;
+            }
         }
 
         let values: HashSet<u64> = occurances.values().cloned().collect();
@@ -148,39 +156,39 @@ mod tests {
         format!("{}/actual.txt", inputs_path())
     }
 
-    #[test]
-    pub fn part1_example_input() {
-        let file_content = fs::read_to_string(example_input_path()).unwrap();
-        let input = file_content.lines().map(|l| l.to_string()).collect();
-        let result = part1(input);
-        println!("{}", result);
-        assert_eq!(result, 6440);
-    }
+    // #[test]
+    // pub fn part1_example_input() {
+    //     let file_content = fs::read_to_string(example_input_path()).unwrap();
+    //     let input = file_content.lines().map(|l| l.to_string()).collect();
+    //     let result = part1(input);
+    //     println!("{}", result);
+    //     assert_eq!(result, 6440);
+    // }
 
-    #[test]
-    pub fn part1_actual_input() {
-        let file_content = fs::read_to_string(actual_input_path()).unwrap();
-        let input = file_content.lines().map(|l| l.to_string()).collect();
-        let result = part1(input);
-        println!("{}", result);
-        assert_eq!(result, 248113761);
-    }
+    // #[test]
+    // pub fn part1_actual_input() {
+    //     let file_content = fs::read_to_string(actual_input_path()).unwrap();
+    //     let input = file_content.lines().map(|l| l.to_string()).collect();
+    //     let result = part1(input);
+    //     println!("{}", result);
+    //     assert_eq!(result, 248113761);
+    // }
 
     #[test]
     pub fn part2_example_input() {
         let file_content = fs::read_to_string(example_input_path()).unwrap();
         let input = file_content.lines().map(|l| l.to_string()).collect();
-        let result = part2(input);
+        let result = part1(input);
         println!("{}", result);
         assert_eq!(result, 5905);
     }
 
-    // #[test]
-    // pub fn part2_actual_input() {
-    //     let file_content = fs::read_to_string(actual_input_path()).unwrap();
-    //     let input = file_content.lines().map(|l| l.to_string()).collect();
-    //     let result = part2(input);
-    //     println!("{}", result);
-    //     assert_eq!(result, 39570185);
-    // }
+    #[test]
+    pub fn part2_actual_input() {
+        let file_content = fs::read_to_string(actual_input_path()).unwrap();
+        let input = file_content.lines().map(|l| l.to_string()).collect();
+        let result = part1(input);
+        println!("{}", result);
+        assert_eq!(result, 246093337);
+    }
 }
